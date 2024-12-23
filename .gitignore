@@ -1,0 +1,49 @@
+# PhpStorm project files
+/.idea/
+
+# OS or Editor folders
+.DS_Store
+
+# css/js/image assets
+/bower_components/
+
+# Bitrix core
+/bitrix/
+/bitrix
+
+# Bitrix download folder
+/upload/
+/upload
+
+# composer folder
+/vendor/
+
+# root robots
+/robots.txt
+
+# root htaccess
+/.htaccess
+
+# root htsecure
+/.htsecure
+
+# node modules
+node_modules/
+
+# root images
+/images/
+/images
+
+# all logs
+logs/
+
+# some files
+*.log
+*.sql
+*.txt
+*.xml
+*.dt
+*.pdf
+
+/dev*.php
+
