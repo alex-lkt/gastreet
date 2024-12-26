@@ -45,5 +45,10 @@ logs/
 *.dt
 *.pdf
 
+# верстка
+/markup/
+
 /dev*.php
+
+page-test.php
 
