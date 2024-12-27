@@ -17,9 +17,9 @@ $result = ["success" => false, "data" => [], "errors" => []];
 switch ($type) {
     case "get_inn":
         $numInn = htmlspecialcharsbx($request['number_inn']) ?? false;
+        $dadata = new \Dadata\DadataClient(DADATA_TOKEN, DADATA_SECRET);
 
-        $key='8f4d1351a0a278bfc98d57a7a56061ab33126bad'; // FNS_API_KEY
-        $result = file_get_contents("https://api-fns.ru/api/egr?req=".$numInn."&key=".$key);
+        $response = $dadata->findById("party", $numInn);
         break;
 
     default:

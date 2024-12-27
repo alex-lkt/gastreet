@@ -81,4 +81,18 @@ class SmsHelpers{
 
 		return $result;
 	}
+
+    /**
+     * Вычисление кода телефона от страны (необходима реализация)
+     * @param $phone
+     * @return string
+     */
+    public static function checkCodePhone($phone) {
+        $arCode = [
+            '10' => '+7',
+        ];
+        $numLenght = mb_strlen($phone);
+
+        return $arCode[$numLenght];
+    }
 }

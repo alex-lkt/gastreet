@@ -47,9 +47,9 @@ if (!empty($arResult['ERROR_MESSAGE']))
 							</svg>
 						</div>
 					</div>
-					<div class="login-page__reset">
+					<?/*<div class="login-page__reset">
 						<a href="#"><?echo GetMessage("AUTH_PASSWORD_UPDATE")?></a>
-					</div>
+					</div>*/?>
 					<div class="login-page__butt">
 						<input type="button" class="button button-white js-send-sms" value="<?echo GetMessage("AUTH_GOTO_CODE")?>">
 						<input type="button" class="button button-white js-send-auth" value="<?echo GetMessage("AUTH_AUTHORIZE")?>">

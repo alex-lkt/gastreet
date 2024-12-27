@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function(){
     const positionInput = document.querySelector('.custom__position-wrapper');
     const positionOption = document.querySelector('.js-input__select-position');
     const positionCloseBtn = document.querySelector('.custom__position-close');
+    const position2 = document.getElementById('POSITION2');
 
     positionOption.addEventListener('click', () =>{
         if (positionOption.value === "custom_position") {
@@ -19,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function(){
         positionInput.classList.remove("shown");
         positionOption.classList.remove("hidden");
         positionOption.options[0].selected = true;
+        position2.value = '';
     })
 
     // Найти ИНН
@@ -77,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function(){
             messageBox.show();
             setTimeout(() => {
                 messageBox.close();
-            }, 5000)
+            }, 3000)
         }
     })
 

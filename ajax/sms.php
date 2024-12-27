@@ -100,7 +100,7 @@ switch ($data['action']) {
                         $user = new CUser;
                         $arFields = array(
                             "NAME" => '',
-                            "LOGIN" => checkCodePhone($phone).$phone,
+                            "LOGIN" => \firstbit\SmsHelpers::checkCodePhone($phone).$phone,
                             "EMAIL" => $phone.'@no-email.ru',
                             "PHONE_NUMBER" => $data['number_login'], // Номер телефона
                             "LID" => "s1",
@@ -157,33 +157,6 @@ switch ($data['action']) {
         break;
 }
 
-/* удалить */
-function checkUser($phone) {
-    $result = null;
-    $rsPhone = \Bitrix\Main\UserPhoneAuthTable::getList([
-        'filter' => ['=PHONE_NUMBER' => checkCodePhone($phone).$phone],
-        'select' => ['USER_ID', 'PHONE_NUMBER'],
-    ])->fetch();
-
-    $filter = ["ID" => $rsPhone['USER_ID']];
-    $rsUsers = CUser::GetList(($by="personal_country"), ($order="desc"), $filter);
-    while($arUser = $rsUsers->Fetch()){
-        $result['USER_ID'] = $arUser['ID'];
-        $result['PHONE_NUMBER'] = $rsPhone['PHONE_NUMBER'];
-        $result['LOGIN'] = $arUser['LOGIN'];
-    }
-    return $result;
-}
-
-function checkCodePhone($phone) {
-    $arCode = [
-        '10' => '+7',
-    ];
-    $numLenght = mb_strlen($phone);
-
-    return $arCode[$numLenght];
-}
-
 /**
  * Получение свойств пользователя по какому-то либо свойству.
  * @param $id
@@ -213,7 +186,7 @@ function getUser($id = null, $phone = null, $code = null) {
         ])->fetch();
     } else if($phone) {
         $arPhoneNum = \Bitrix\Main\UserPhoneAuthTable::getList([
-            'filter' => ['=PHONE_NUMBER' => checkCodePhone($phone).$phone],
+            'filter' => ['=PHONE_NUMBER' => \firstbit\SmsHelpers::checkCodePhone($phone).$phone],
             'select' => ['USER_ID', 'PHONE_NUMBER'],
         ])->fetch();
 
@@ -258,5 +231,3 @@ function sendSms($phone, $mess) {
     return $res;
 }
 
-//$result['phone'] = phone_format($data['number_login'], '#');
-//$result['res'] = "yes";

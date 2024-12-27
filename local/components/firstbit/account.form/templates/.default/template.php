@@ -99,13 +99,13 @@
                         <label for="COMPANY_NAME" class="input__title">
                             Название компании
                         </label>
-                        <textarea name="COMPANY_NAME" id="COMPANY_NAME" class="input" ></textarea>
+                        <textarea name="COMPANY_NAME" id="COMPANY_NAME" class="input" ><?=$arResult['ITEMS']['COMPANY_NAME_VALUE']?></textarea>
                     </div>
                     <div class="input-blocks__item">
                         <label for="COMPANY_ADDRESS" class="input__title">
                             Почтовый адрес
                         </label>
-                        <textarea name="COMPANY_ADDRESS" id="COMPANY_ADDRESS" class="input" ></textarea>
+                        <textarea name="COMPANY_ADDRESS" id="COMPANY_ADDRESS" class="input" ><?=$arResult['ITEMS']['COMPANY_ADDRESS_VALUE']?></textarea>
                     </div>
                     <div class="input-blocks__item">
                         <label for="POSITION" class="input__title">
@@ -116,10 +116,13 @@
                             <?foreach($arResult['ITEMS']['UF_POSITION_NAME'] as $item):?>
                                 <option value="<?=$item?>"><?=$item?></option>
                             <?endforeach;?>
+                            <?if((array_search($arResult['ITEMS']['POSITION_VALUE'], $arResult['ITEMS']['UF_POSITION_NAME']) !== true) AND !empty($arResult['ITEMS']['POSITION_VALUE'])):?>
+                                <option selected value="<?=$arResult['ITEMS']['POSITION_VALUE']?>"><?=$arResult['ITEMS']['POSITION_VALUE']?></option>
+                            <?endif?>
                             <option value="custom_position">*Добавить должность*</option>
                         </select>
                         <div class="custom__position-wrapper">
-                            <input name="POSITION" id="POSITION" type="text" class="input input-position" placeholder="" value="<?=$arResult['ITEMS']['COMPANY_NAME_VALUE']?>">
+                            <input name="POSITION2" id="POSITION2" type="text" class="input input-position" placeholder="" value="">
                             <div class="custom__position-close">
                                 <svg fill="#000000" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 50 50" width="50px" height="50px"><path d="M 25 2 C 12.309534 2 2 12.309534 2 25 C 2 37.690466 12.309534 48 25 48 C 37.690466 48 48 37.690466 48 25 C 48 12.309534 37.690466 2 25 2 z M 25 4 C 36.609534 4 46 13.390466 46 25 C 46 36.609534 36.609534 46 25 46 C 13.390466 46 4 36.609534 4 25 C 4 13.390466 13.390466 4 25 4 z M 32.990234 15.986328 A 1.0001 1.0001 0 0 0 32.292969 16.292969 L 25 23.585938 L 17.707031 16.292969 A 1.0001 1.0001 0 0 0 16.990234 15.990234 A 1.0001 1.0001 0 0 0 16.292969 17.707031 L 23.585938 25 L 16.292969 32.292969 A 1.0001 1.0001 0 1 0 17.707031 33.707031 L 25 26.414062 L 32.292969 33.707031 A 1.0001 1.0001 0 1 0 33.707031 32.292969 L 26.414062 25 L 33.707031 17.707031 A 1.0001 1.0001 0 0 0 32.990234 15.986328 z"/></svg>
                             </div>
