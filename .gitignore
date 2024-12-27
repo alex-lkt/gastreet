@@ -17,6 +17,7 @@
 
 # composer folder
 /vendor/
+local/php_interface/vendor
 
 # root robots
 /robots.txt

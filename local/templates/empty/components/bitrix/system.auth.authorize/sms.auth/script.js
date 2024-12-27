@@ -58,6 +58,7 @@ $(document).on('click','.js-send-sms',function(e){
                 }, 3000);
             }
         });
+
     } else {
         form_error.innerHTML = '<span class="red-not">Введите номер телефона</span>';
         form_error.style.display = 'block';

@@ -1249,7 +1249,7 @@ tr.table__colored {
 }
 
 .login-page__logo {
-    background-image: url("images/login-bg.jpg");
+    background-image: url("/images/login-bg.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;

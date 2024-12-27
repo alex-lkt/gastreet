@@ -1,0 +1,48 @@
+.custom__position-wrapper {
+    display: none;
+    position: relative;
+}
+.custom__position-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+}
+.custom__position-close svg {
+    width: 25px;
+    height: 25px;
+}
+.shown {
+    display: block;
+}
+.hidden {
+    display: none;
+}
+
+#COMPANY_NAME {
+    width: 100%;
+    padding-bottom: 0px;
+}
+#COMPANY_ADDRESS {
+    width: 100%;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+.input-blocks__item-wbutt {
+    padding-bottom: 5px;
+}
+
+@media (max-width: 990px) {
+    .input-blocks__item-wbutt-wrapper {
+        /*margin-bottom: 5px;*/
+    }
+    .input-blocks__item-wbutt .input {
+        padding-right: 8px;
+    }
+}
+@media (max-width: 768px) {
+    .input-blocks__item-wbutt-wrapper {
+        margin-bottom: 0px;
+    }
+}
+

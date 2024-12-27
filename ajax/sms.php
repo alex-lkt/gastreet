@@ -1,6 +1,11 @@
 <?php
+define("NO_KEEP_STATISTIC", true);
+define("NO_AGENT_STATISTIC", true);
+define("NOT_CHECK_PERMISSIONS", true);
+
 session_start();
 ini_set('max_execution_time', 20000);
+
 require_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_before.php");
 require_once ($_SERVER["DOCUMENT_ROOT"] . "/local/php_interface/lib/sms/sms.ru.php");
 
@@ -12,7 +17,7 @@ use Bitrix\Main\Type\DateTime;
 global $USER;
 
 $data = json_decode(file_get_contents('php://input'), true);
-$phone = phone_format($data['number_login'], '#');
+$phone = \firstbit\SmsHelpers::phone_format($data['number_login'], '#');
 $result['res'] = "no";
 
 file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/sms_test.txt", "1.0.0. ".date("Y-m-d H:i:s")." data: " . print_r([$data, $phone], 1) . PHP_EOL, FILE_APPEND);
@@ -90,12 +95,12 @@ switch ($data['action']) {
                     // Пользователь не найден, регистрируем нового
                     if (empty($rsUsers)) {
                         // Пользователь не найден, регистрируем нового
-                        file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/sms_test.txt", "3.0.0. ".date("Y-m-d H:i:s")."Регистрируем нового пользователя " . PHP_EOL , FILE_APPEND);
+                        file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/sms_test.txt", "3.0.0. ".date("Y-m-d H:i:s")." Регистрируем нового пользователя " . PHP_EOL , FILE_APPEND);
 
                         $user = new CUser;
                         $arFields = array(
                             "NAME" => '',
-                            "LOGIN" => $phone,
+                            "LOGIN" => checkCodePhone($phone).$phone,
                             "EMAIL" => $phone.'@no-email.ru',
                             "PHONE_NUMBER" => $data['number_login'], // Номер телефона
                             "LID" => "s1",
@@ -109,8 +114,19 @@ switch ($data['action']) {
                         if ($newUserID) {
                             $result['res'] = 'NEW';
                             $result['link'] = OK_AUTH_LINK;
-                            
                             $USER->Authorize($newUserID);
+
+                            // Новый код, обновляем у пользователя UF_SMS_CODE
+                            $fields = [
+                                "UF_SMS_CODE" => $data['code_auth'],
+                                "UF_CODE_TIME" => date("d.m.Y H:i:s")
+                            ];
+                            $userUpdate = $USER->Update($USER->GetID(), $fields);
+                            if ($userUpdate === false) {
+                                file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/sms_test.txt", "2.1.0. ".date("Y-m-d H:i:s")." Новый user, Update UF_SMS_CODE: ERROR " . print_r($userUpdate, 1) . PHP_EOL, FILE_APPEND);
+                            } else {
+                                file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/sms_test.txt", "2.1.1. ".date("Y-m-d H:i:s")." Новый user, Update UF_SMS_CODE: OK | status" . print_r($userUpdate, 1)  . PHP_EOL, FILE_APPEND);
+                            }
 
                             file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/sms_test.txt", "3.0.1. ".date("Y-m-d H:i:s")." Зарегистрирован новый пользователь, ID: " . print_r($newUserID, 1) . PHP_EOL , FILE_APPEND);
                         } else {
@@ -213,8 +229,8 @@ function getUser($id = null, $phone = null, $code = null) {
     if ($arUser['UF_CODE_TIME']) {
         $dateCurrent = date('Y-m-d H:i:s');
         $dateAuthCode = $arUser['UF_CODE_TIME']->format('Y-m-d H:i:s');
-        $dateDiff = dateDiff($dateCurrent, $dateAuthCode);
-        $arUser['END_TIME_LIMMIT'] = $dateDiff['minutes'] > SMS_CODE_LIFETIME;
+        //$dateDiff = \firstbit\SmsHelpers::dateDiff($dateCurrent, $dateAuthCode);
+        //$arUser['END_TIME_LIMMIT'] = $dateDiff['minutes'] > SMS_CODE_LIFETIME;
     }
 
     return $arUser;
