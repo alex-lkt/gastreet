@@ -1,0 +1,10 @@
+{
+    "autoload": {
+        "psr-4": {
+        "firstbit\\": "firstbit/"
+        }
+    },
+    "require": {
+        "hflabs/dadata": "^24.4"
+    }
+}
